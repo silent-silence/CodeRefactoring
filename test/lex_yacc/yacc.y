@@ -1,5 +1,5 @@
 %{
-#include "main.h"
+#include "config.hpp"
 
 using std::cout;
 using std::endl;
@@ -13,36 +13,35 @@ extern "C"
 
 %}
 
-%token<m_nInt>INTEGER
-%token<m_sId>IDENTIFIER
-%token<m_cOp>OPERATOR
-%type<m_sId>file
-%type<m_sId>tokenlist
+%token<m_type_of_data.m_boolean>Type_Boolean
+%token<m_type_of_data.m_character>Type_Character
+%token<m_type_of_data.m_integer>Type_Integer
+%token<m_type_of_data.m_float>Type_Float
+%token<m_type_of_data.m_double>Type_Double
+%token<m_variable_name>Variable_Name
+%token<m_constant.m_integer>Constant_Int
+%token<m_operator.m_assignment>Operator_Assignment
 
 %%
-
-file:
-	tokenlist
-	{
-		cout<<"all id:"<<$1<<endl;
-	};
-tokenlist:
-	{
-	}
-	| tokenlist INTEGER
-	{
-		cout<<"int: "<<$2<<endl;
-	}
-	| tokenlist IDENTIFIER
-	{
-		$$+=" " + $2;
-		cout<<"id: "<<$2<<endl;
-	}
-	| tokenlist OPERATOR
-	{
-		cout<<"op: "<<$2<<endl;
+declare_integer: 
+	type_of_data assignment {
+		cout<<"declare_integer"<<endl;
 	};
 
+assignment: 
+	Variable_Name Operator_Assignment constant {
+		cout<<"assignment: "<<$1<<" "<<$2<<endl;
+	};
+
+constant: 
+	Constant_Int {
+		cout<<"constant: "<<$1<<endl;
+	};
+
+type_of_data: 
+	Type_Integer{
+		cout<<"type_of_data: "<<$1<<endl;
+	};
 %%
 
 void yyerror(const char *s)

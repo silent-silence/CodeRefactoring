@@ -1,6 +1,12 @@
 #include <stdio.h>
-#include "main.h"
-#include "yacc.hpp"
+#include <algorithm>
+
+#include "lex_yacc/config.hpp"
+#include "lex_yacc/yacc.hpp"
+
+using std::cout;
+using std::endl;
+using std::atoi;
 
 int main()
 {
